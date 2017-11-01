@@ -6,6 +6,27 @@ clearvars;
 close all;
 clc;
 
+%% Problem 7b
+
+j = sqrt(-1);
+w = 10.^(-1 : 0.01 : 3);
+
+w0 = 10;
+
+zeta = [1, 0.8, 0.5, 0.2];
+
+color = ['r', 'g', 'b', 'm'];
+
+for i = 1 : 4
+    H = 1./((j*w).^2+2*zeta(i)*w0*(j*w)+w0^2);
+    Hdb=20*log10(abs(H));
+    plot(w,Hdb,color(i)); 
+    set(gca,'xscale','log')
+    hold on;
+end    
+title('Problem 7b');
+legend('? = 1', '? = 0.8', '? = 0.5', '? = 0.2');
+
 %% Problem 8d
 
 zeta = [2, 1.25, 1, 0.5, 0.2, 0.1, 0];
@@ -128,14 +149,14 @@ for k=1:200
 	% findthe DFT of x(t) thenremove the redundant freqs
 	subplot(212); 
 	plot(f,abs(X));% plot X(f)in the lowerplot
-	f_actual(k)= k; %UNCOMMENTTHIS LINE
-	f_detected(k)= X(k) ;   %MODIFY THIS LINE
+	f_actual(k)= k;
+	f_detected(k)= X(k) ; %MODIFY THIS LINE
     pause;
 	% pressthe SPACEBAR to advance to next frame(or hold it downto advance rapidlly)\
 end
 
 figure;
-plot(f_actual, f_actual, '-b',f_actual, f_detected, '-r'); 
+plot(f_actual, f_detected, '-b',f_actual, f_detected, '-r'); 
 legend({'Actual Frequency','DetectedFrequency'})
 
 %%

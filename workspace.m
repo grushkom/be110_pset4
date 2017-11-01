@@ -48,7 +48,7 @@ figure();
 % plot(w,Hdb,'r'); 
 % set(gca,'xscale','log')% define H & make the plot
 
-H=1./(j*w + 1);
+H=1./(1 - w);
 Hdb=20*log10(abs(H));
 plot(w,Hdb,'r'); 
 set(gca,'xscale','log')% define H & make the plot
