@@ -29,15 +29,15 @@ legend('? = 2', '? = 1.25', '? = 1', '? = 0,5', '? =0.2', '? = 0.1' , '? = 0');
 
 figure;
 for i = 1 : 7
-    H=1./(0.1*(j*w).^2+b(i)*(j*w)+10);
-    Hdb=20*log10(abs(H));
-    plot(w,Hdb,color(i)); 
-    set(gca,'xscale','log');
+    H=tf(1./(0.1*(j*w).^2+b(i)*(j*w)+10));
+    Y = step(H);
+%     plot(t,Y,color(i)); 
     hold on;
 end  
 
 %% Problem 9
 
+w = 10.^(-1 : 0.01 : 3);
 figure;
 subplot(2,3,1); 
 H=1./(j*w/10+1); 
@@ -98,7 +98,7 @@ end
 % the upperbut with the reddots connected
 
 %%
-% \textbit{10a:} As I am flipping through the sampling frequencies, I observe the
+% 10a:  As I am flipping through the sampling frequencies, I observe the
 % effect known as aliasing. Aliasing is generally observed in the
 % Discrete-Time Fourier Transform, where only a single fundamental sampling
 % frequency $\omega _o$. At higher $\omega _o$ (significantly higher than
@@ -115,8 +115,6 @@ dt=0.01;
 t=0:dt:10; 
 N=length(t); 
 % define t with a sampling interval dt=0.001 
-f_actual(k)=0;
-f_detected(k)=[];
 for k=1:200
 % for loop that incrementally changes the frequency 
     x=cos(2*pi*k*t);  
