@@ -1,10 +1,12 @@
 %% Mikhail Grushko - BE110 - PSET 4
 
+
 %% Cleanup
 
 clearvars;
 close all;
 clc;
+
 
 %% Problem 7b
 
@@ -149,14 +151,15 @@ for k=1:200
 	% findthe DFT of x(t) thenremove the redundant freqs
 	subplot(212); 
 	plot(f,abs(X));% plot X(f)in the lowerplot
+    [a,b] = max(X);
 	f_actual(k)= k;
-	f_detected(k)= X(k) ; %MODIFY THIS LINE
+	f_detected(k)= f(b); %MODIFY THIS LINE
     pause;
 	% pressthe SPACEBAR to advance to next frame(or hold it downto advance rapidlly)\
 end
 
 figure;
-plot(f_actual, f_detected, '-b',f_actual, f_detected, '-r'); 
+plot(f_actual, f_detected, '-b',f_actual, f_actual, '-r'); 
 legend({'Actual Frequency','DetectedFrequency'})
 
 %%
