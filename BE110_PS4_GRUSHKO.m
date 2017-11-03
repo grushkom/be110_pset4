@@ -27,7 +27,7 @@ for i = 1 : 4
     hold on;
 end    
 title('Problem 7b');
-legend('? = 1', '? = 0.8', '? = 0.5', '? = 0.2');
+legend('\zeta = 1', '\zeta = 0.8', '\zeta = 0.5', '\zeta = 0.2');
 
 %% Problem 8d
 
@@ -39,64 +39,88 @@ color = ['r', 'g', 'b', 'm', 'k', 'c', 'k'];
 
 figure;
 for i = 1 : 7
-    H=1./(0.1*(j*w).^2+b(i)*(j*w)+10);
+    H=10./(0.1*(j*w).^2+b(i)*(j*w)+10);
     Hdb=20*log10(abs(H));
     plot(w,Hdb,color(i)); 
     set(gca,'xscale','log');
     hold on;
 end     
 title('Problem 8d');
-legend('? = 2', '? = 1.25', '? = 1', '? = 0,5', '? =0.2', '? = 0.1' , '? = 0');
+legend('\zeta = 2', '\zeta = 1.25', '\zeta = 1', '\zeta = 0,5', '\zeta =0.2', '\zeta = 0.1' , '\zeta = 0');
+
+%%
+% What is going here is that as we decrease \zeta from 2 to 0, we get a
+% higher and higher peak values, until eventually @ $\zeta = 0$, we get an
+% infinitely large peak. This is due to the fact that the system's
+% denominator $->0$ as $\zeta -> 0$
 
 %% Problem 8e
 
-figure;
+j = sqrt(-1);
+w = 10.^(-1 : 0.01 : 3);
+zeta = [2, 1.25, 1, 0.5, 0.2, 0.1, 0];
+K = 10;
+w0 = 10;
+color = ['r', 'g', 'b', 'm', 'k', 'c', 'k'];
+
 for i = 1 : 7
-    H=tf(1./(0.1*(j*w).^2+b(i)*(j*w)+10));
-    Y = step(H);
-%     plot(t,Y,color(i)); 
-    hold on;
+    sys=tf(K, [1, 2*zeta(i)*w0, w0^2]);
+    Y = stepinfo(sys)
 end  
 
 %% Problem 9
 
 w = 10.^(-1 : 0.01 : 3);
+
 figure;
-subplot(2,3,1); 
+subplot(2,3,1);  
 H=1./(j*w/10+1); 
 Hdb=20*log10(abs(H)); 
 plot(w,Hdb,'r'); 
 set(gca,'xscale','log')% define H & make the plot
+xlabel('w_0')
+ylabel('dB')
 
 subplot(2,3,2); 
 H=1./(j*w/10+1).^2; 
 Hdb=20*log10(abs(H)); 
 plot(w,Hdb,'g'); 
 set(gca,'xscale','log')% define H & make the plot
+xlabel('w_0')
+ylabel('dB')
 
 subplot(2,3,3); 
 H=1./(j*w); 
 Hdb=20*log10(abs(H)); 
 plot(w,Hdb,'b'); 
 set(gca,'xscale','log')% define H & make the plot
+xlabel('w_0')
+ylabel('dB')
 
 subplot(2,3,4); 
-H=(10./(j*w))+1; 
+H=((j*w)./10)+1; 
 Hdb=20*log10(abs(H)); 
 plot(w,Hdb,'k'); 
 set(gca,'xscale','log')% define H & make the plot
+xlabel('w_0')
+ylabel('dB')
 
 subplot(2,3,5); 
 H=(j*w)./(((j*w./10) + 1).*((j*w./100) + 1)); 
 Hdb=20*log10(abs(H)); 
 plot(w,Hdb); 
 set(gca,'xscale','log')% define H & make the plot
+xlabel('w_0')
+ylabel('dB')
 
 subplot(2,3,6); 
 H=(j*w)./(((j*w./50) + 1).*((j*w./200) + 1)); 
 Hdb=20*log10(abs(H)); 
 plot(w,Hdb,'m'); 
 set(gca,'xscale','log')% define H & make the plot
+xlabel('w_0')
+ylabel('dB')
+
 
 %% Problem 10a
 
@@ -151,7 +175,7 @@ for k=1:200
 	% findthe DFT of x(t) thenremove the redundant freqs
 	subplot(212); 
 	plot(f,abs(X));% plot X(f)in the lowerplot
-    [a,b] = max(X);
+    [a, b] = max(X);
 	f_actual(k)= k;
 	f_detected(k)= f(b); %MODIFY THIS LINE
     pause;
@@ -161,6 +185,7 @@ end
 figure;
 plot(f_actual, f_detected, '-b',f_actual, f_actual, '-r'); 
 legend({'Actual Frequency','DetectedFrequency'})
+title('10b')
 
 %%
 % This is another way of demonstrating the aliasing problem when doing the
