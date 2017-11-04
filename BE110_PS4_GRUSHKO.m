@@ -34,15 +34,14 @@ legend('\zeta = 1', '\zeta = 0.8', '\zeta = 0.5', '\zeta = 0.2');
 zeta = [2, 1.25, 1, 0.5, 0.2, 0.1, 0];
 b = zeta*2*0.1*10;
 j = sqrt(-1);
-w = 10.^(-1 : 0.01 : 3);
+w = ifft(10.^(-1 : 0.01 : 3));
 color = ['r', 'g', 'b', 'm', 'k', 'c', 'k'];
 
 figure;
 for i = 1 : 7
-    H=10./(0.1*(j*w).^2+b(i)*(j*w)+10);
-    Hdb=20*log10(abs(H));
-    plot(w,Hdb,color(i)); 
-    set(gca,'xscale','log');
+    H = tf(10, [1, 2*zeta(i)*w0, w0^2]);
+    step(H);
+    xlim([0 2])
     hold on;
 end     
 title('Problem 8d');
@@ -64,6 +63,10 @@ w0 = 10;
 color = ['r', 'g', 'b', 'm', 'k', 'c', 'k'];
 
 for i = 1 : 7
+    H = tf(10, [1, 2*zeta(i)*w0, w0^2]);
+    step(H);
+    xlim([0 2])
+    hold on;
     sys=tf(K, [1, 2*zeta(i)*w0, w0^2]);
     Y = stepinfo(sys)
 end  
